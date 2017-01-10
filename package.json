@@ -1,7 +1,8 @@
 {
   "name": "svg2react",
   "version": "1.0.0",
-  "description": "Convert svg icons into react components",
+  "description": "Converts svg icons into react components",
+  "engines": {"node": ">=6.0"},
   "main": "index.js",
   "repository": {
     "type": "git",
