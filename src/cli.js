@@ -1,6 +1,8 @@
+#!/usr/bin/env node
+
 const fs = require('fs');
 const path = require('path');
-const svg2component = require('./src/svg2component');
+const svg2component = require('./svg2component');
 
 const file = process.argv[2]
 
