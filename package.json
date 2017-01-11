@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Converts svg icons into react components",
   "engines": {
-    "node": ">=6.0"
+    "node": ">=4.0"
   },
   "main": "index.js",
   "bin": {

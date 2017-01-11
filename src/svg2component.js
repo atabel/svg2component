@@ -1,5 +1,5 @@
 // https://astexplorer.net/#/T8EKu3LS1W/3
-const {codeBlock} = require('common-tags');
+const codeBlock = require('common-tags').codeBlock;
 const babel = require('babel-core');
 const generate = require('babel-generator').default;
 const babylon = require('babylon');
@@ -26,12 +26,12 @@ const camelize = (string) =>
 
 /**
  * Converts the indentation of the provided source code to the specified
- * indentation (default 4 spaces)
+ * indentation
  * @param {string} codeStr
  * @param {string} indentation
  * @return {string}
  */
-const indent = (codeStr, indentation = '    ') =>
+const indent = (codeStr, indentation) =>
     codeStr.replace(/\n\s*/g, chunk => {
         const indentetionLevel = (chunk.length - 1) / 2; // original indentation is 2 spaces.
         return '\n' + indentation.repeat(indentetionLevel);
@@ -50,14 +50,15 @@ const svg2component = (componentName, svgString) => {
     const origAst = babylon.parse(source, {plugins: ['jsx'], sourceType: 'module'});
 
     const propNames = ['size'];
-    const {ast} = babel.transformFromAst(origAst, source,  {plugins: [
-        ({types: t}) => ({
+    const ast = babel.transformFromAst(origAst, source,  {plugins: [
+        (babel) => ({
             visitor: {
                 JSXIdentifier(path) {
                     path.node.name = camelize(path.node.name);
                 },
 
                 JSXAttribute(path) {
+                    const t = babel.types;
                     if (path.node.name.name === 'fill') {
                         propNames.push(`color = '${path.node.value.value}'`);
                         path.node.value = t.JSXExpressionContainer(t.Identifier('color'));
@@ -69,15 +70,15 @@ const svg2component = (componentName, svgString) => {
                 },
             },
         })
-    ]});
+    ]}).ast;
 
-    const {code} = generate(ast);
+    const code = generate(ast).code;
 
     return codeBlock`
         import React from 'react';
 
         const ${componentName} = ({${propNames.filter(Boolean).join(', ')}}) => (
-            ${indent(code)}
+            ${indent(code, '    ')}
         );
 
         export default ${componentName};
