@@ -119,9 +119,14 @@ const svg2component = (componentName, svgString, withPropTypes) => {
                 ${propTypes},
             };` + '\n'
         : '';
+
+    const importSrc = !!withPropTypes
+        ? `import React, {PropTypes as t} from 'react'`
+        : `import React from 'react'`;
+
     return {
         src: codeBlock`
-            import React, {PropTypes as t} from 'react';
+            ${importSrc}
 
             const ${componentName} = ({${propsParams}}) => (
                 ${indent(code, '    ')}
