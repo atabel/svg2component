@@ -29,6 +29,7 @@ const convertToComponent = file => {
 program
     .version(require('../package.json').version)
     .usage('[options] <file>')
+    .description('converts a .svg file into a React component')
     .arguments('<file>')
     .option('-p, --propTypes', 'add propTypes declaration')
     .action(convertToComponent)

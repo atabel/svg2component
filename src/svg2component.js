@@ -1,4 +1,3 @@
-// https://astexplorer.net/#/T8EKu3LS1W/3
 const tags = require('common-tags');
 const codeBlock = tags.codeBlock;
 const oneLine = tags.oneLine;
@@ -6,7 +5,6 @@ const babel = require('babel-core');
 const t = babel.types;
 const generate = require('babel-generator').default;
 const babylon = require('babylon');
-
 
 /**
  * remove and parameterize all svg attributes except viewbox
