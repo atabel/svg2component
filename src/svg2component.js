@@ -47,9 +47,10 @@ const indent = (codeStr, indentation) =>
  * - color: string // fill color of the icon
  * @param {string} componentName
  * @param {string} svgString
+ * @param {bool} withPropTypes
  * @return {string} react component source code
  */
-const svg2component = (componentName, svgString) => {
+const svg2component = (componentName, svgString, withPropTypes) => {
     const errors = [];
     const source = stripSvgArguments(svgString);
     const origAst = babylon.parse(source, {plugins: ['jsx'], sourceType: 'module'});
@@ -112,6 +113,12 @@ const svg2component = (componentName, svgString) => {
         .map((prop) => `${prop.name}: t.${prop.type}`)
         .join(',\n');
 
+    const propTypesSrc = !!withPropTypes
+        ? '\n' + codeBlock`
+            ${componentName}.propTypes = {
+                ${propTypes},
+            };` + '\n'
+        : '';
     return {
         src: codeBlock`
             import React, {PropTypes as t} from 'react';
@@ -119,11 +126,7 @@ const svg2component = (componentName, svgString) => {
             const ${componentName} = ({${propsParams}}) => (
                 ${indent(code, '    ')}
             );
-
-            ${componentName}.propTypes = {
-                ${propTypes},
-            };
-
+            ${propTypesSrc}
             export default ${componentName};
         ` + '\n',
 
