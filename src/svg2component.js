@@ -70,6 +70,7 @@ const svg2component = (componentName, svgString, withPropTypes) => {
 
             if (!isPropAlreadyFound(propName)) {
                 propsDeclaration.push({name: propName, defaultValue: value, type: 'string'});
+                node.value = t.JSXExpressionContainer(t.Identifier(propName));
             } else {
                 const prop = getPropDeclaration(propName);
                 if (prop.defaultValue !== value) {
@@ -78,9 +79,10 @@ const svg2component = (componentName, svgString, withPropTypes) => {
                         ${prop.defaultValue} !== ${value}.
                         SVGs with multiple ${prop.name} are not supported yet.
                     `);
+                } else {
+                    node.value = t.JSXExpressionContainer(t.Identifier(propName));
                 }
             }
-            node.value = t.JSXExpressionContainer(t.Identifier(propName));
         }
     };
 
