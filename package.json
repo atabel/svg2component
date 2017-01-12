@@ -1,6 +1,6 @@
 {
   "name": "svg2component",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Converts svg icons into react components",
   "engines": {
     "node": ">=4.0"
