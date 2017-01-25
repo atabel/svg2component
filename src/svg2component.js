@@ -133,7 +133,7 @@ const svg2component = (componentName, svgString, withPropTypes) => {
             );
             ${propTypesSrc}
             export default ${componentName};
-        ` + '\n',
+        `,
 
         errors,
     };
